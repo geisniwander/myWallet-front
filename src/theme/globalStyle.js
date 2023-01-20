@@ -47,7 +47,20 @@ const GlobalStyle = createGlobalStyle`
  *{
     overflow-x: hidden;
  }
-
+ input{
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    color: #000000;
+    box-sizing: border-box;
+    padding:2%;
+ }
+ button{
+    font-family: 'Raleway';
+    font-weight: 700;
+ }
 }
 `;
 export default GlobalStyle;
