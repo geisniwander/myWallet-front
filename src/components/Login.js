@@ -15,7 +15,7 @@ export default function Login() {
       <Form onSubmit={(e) => login(e, email, password)}>
         <Input
           type="email"
-          placeholder="email"
+          placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={loading}
@@ -23,7 +23,7 @@ export default function Login() {
         />
         <Input
           type="password"
-          placeholder="senha"
+          placeholder="Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           disabled={loading}
@@ -35,7 +35,7 @@ export default function Login() {
         </Button>
       </Form>
       <Link to="/cadastro">
-        <p>Não tem uma conta? Cadastre-se!</p>
+        <p>Primeira vez? Cadastre-se!</p>
       </Link>
     </ContainerLogin>
   );
