@@ -4,16 +4,16 @@ import { AuthContext } from "../contexts/Context";
 import { BeatLoader } from "react-spinners";
 
 export default function NewExit() {
-  const [value, setValue] = useState(undefined);
+  const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
-  const { loading } = useContext(AuthContext);
+  const { loading, postMovement } = useContext(AuthContext);
 
   return (
     <ContainerExit>
       <Title>
       <p>Nova saída</p>
       </Title>    
-      <Form >
+      <Form onSubmit={(e) => postMovement(e, value, description,  "exit")}>
         <Input
           type="number"
           placeholder="Valor"

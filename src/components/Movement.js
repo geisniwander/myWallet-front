@@ -17,7 +17,7 @@ export default function Movement() {
     });
     promise.then((response) => {
       setMovements(response.data);
-      response.data.map((movement) => {
+      response.data.forEach((movement) => {
         if (movement.type === "entry") sum += Number(movement.value);
         else sum -= Number(movement.value);
       });
@@ -33,14 +33,12 @@ export default function Movement() {
   }
 
   function deleteMovement(id) {
-    const promise = axios.delete(
-      `${process.env.REACT_APP_DELETEMOVEMENT_ROUTE}/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const deleteURL = `${process.env.REACT_APP_DELETEMOVEMENT_ROUTE}/${id}`;
+    const promise = axios.delete(deleteURL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     promise.then(() => {
       setDeleteM(false);
     });

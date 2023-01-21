@@ -4,16 +4,16 @@ import { AuthContext } from "../contexts/Context";
 import { BeatLoader } from "react-spinners";
 
 export default function NewEntry() {
-  const [value, setValue] = useState(undefined);
+  const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
-  const { loading } = useContext(AuthContext);
+  const { loading, postMovement } = useContext(AuthContext);
 
   return (
     <ContainerEntry>
       <Title>
-      <p>Nova entrada</p>
-      </Title>    
-      <Form >
+        <p>Nova entrada</p>
+      </Title>
+      <Form onSubmit={(e) => postMovement(e, value, description,  "entry")}>
         <Input
           type="number"
           placeholder="Valor"
@@ -45,7 +45,7 @@ const ContainerEntry = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #8C11BE;
+  background-color: #8c11be;
 `;
 
 const Form = styled.form`
@@ -68,7 +68,7 @@ const Button = styled.button`
   height: 46px;
   margin-top: 2%;
   margin-bottom: 7%;
-  background-color:#A328D6;
+  background-color: #a328d6;
   border-radius: 5px;
   border: none;
   font-style: normal;
@@ -79,9 +79,9 @@ const Button = styled.button`
 `;
 
 const Title = styled.div`
-  width:85%;
-  margin-top:10%;
-  margin-bottom:10%;
+  width: 85%;
+  margin-top: 10%;
+  margin-bottom: 10%;
   font-family: "Raleway";
   font-style: normal;
   font-weight: 700;

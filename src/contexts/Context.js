@@ -16,7 +16,7 @@ export default function AuthProvider({ children }) {
     const signinURL = process.env.REACT_APP_SIGNIN_ROUTE;
     e.preventDefault();
     setLoading(true);
-    const promise = axios.post( signinURL , {
+    const promise = axios.post(signinURL, {
       email: email.toString(),
       password: password.toString(),
     });
@@ -32,6 +32,22 @@ export default function AuthProvider({ children }) {
     });
   }
 
+  function postMovement(e, value, description, type) {
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const body = { value, description, type };
+    const postURL = process.env.REACT_APP_POSTMOVEMENT_ROUTE;
+    const promise = axios.post(postURL, body, config);
+    promise.then(() => {
+      navigate("/home");
+    });
+    promise.catch((err) => console.log(err));
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -41,7 +57,8 @@ export default function AuthProvider({ children }) {
         loading,
         setLoading,
         total,
-        setTotal
+        setTotal,
+        postMovement,
       }}
     >
       {children}
