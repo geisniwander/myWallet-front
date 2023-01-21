@@ -15,9 +15,10 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   function register(e) {
+    const signupURL = process.env.REACT_APP_SIGNUP_ROUTE;
     e.preventDefault();
     setLoading(true);
-    const promise = axios.post("http://localhost:5000/sign-up", {
+    const promise = axios.post( signupURL , {
       email: email.toString(),
       name: name.toString(),
       password: password.toString(),
