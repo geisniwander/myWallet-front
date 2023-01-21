@@ -8,6 +8,7 @@ export const AuthContext = createContext();
 export default function AuthProvider({ children }) {
   const [token, setToken] = useState("");
   const [name, setName] = useState("");
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -39,6 +40,8 @@ export default function AuthProvider({ children }) {
         name,
         loading,
         setLoading,
+        total,
+        setTotal
       }}
     >
       {children}

@@ -5,9 +5,8 @@ import { AuthContext } from "../contexts/Context";
 import Movement from "./Movement";
 
 export default function Home() {
-  const { loading, name } = useContext(AuthContext);
+  const { loading, name, total } = useContext(AuthContext);
   const navigate = useNavigate();
-
 
   return (
     <ContainerHome>
@@ -15,23 +14,30 @@ export default function Home() {
         <p>Olá, {name}!</p>
         <ion-icon name="log-out-outline"></ion-icon>
       </Title>
-      <ContainerInfos> <Movement/> </ContainerInfos>
+      <ContainerInfos>
+        {" "}
+        <Movement />
+        <Total>
+          <span>SALDO</span>
+          <Balance color={total >= 0 ? "green" : "red"}>{total}</Balance>
+        </Total>
+      </ContainerInfos>
       <ContainerButtons>
         <Button onClick={() => navigate("/nova-entrada")} disabled={loading}>
           <ion-icon name="add-circle-outline"></ion-icon>
-          <spam>
+          <span>
             Nova
             <br />
             Entrada
-          </spam>
+          </span>
         </Button>
         <Button onClick={() => navigate("/nova-saida")} disabled={loading}>
           <ion-icon name="add-circle-outline"></ion-icon>
-          <spam>
+          <span>
             Nova
             <br />
             Saída
-          </spam>
+          </span>
         </Button>
       </ContainerButtons>
     </ContainerHome>
@@ -57,6 +63,7 @@ const ContainerInfos = styled.div`
   border-radius: 5px;
   box-sizing: border-box;
   padding: 2%;
+  position:relative;
 `;
 
 const Title = styled.div`
@@ -109,4 +116,19 @@ const Button = styled.button`
   spam {
     text-align: left;
   }
+`;
+
+const Total = styled.div`
+width:100%;
+display: flex;
+justify-content: space-between;
+position: absolute;
+box-sizing:border-box;
+padding:3%;
+bottom:0;
+left:0;
+`;
+
+const Balance = styled.div`
+color: ${props => props.color};
 `;

@@ -5,30 +5,36 @@ import { AuthContext } from "../contexts/Context";
 import { BeatLoader } from "react-spinners";
 
 export default function Movement() {
-  const { token } = useContext(AuthContext);
+  const { token, setTotal } = useContext(AuthContext);
   const [movements, setMovements] = useState([]);
+  const [deleteM, setDeleteM] = useState(true);
 
   useEffect(() => {
+    let sum = 0;
     const getmovementsURL = process.env.REACT_APP_GETMOVEMENTS_ROUTE;
     const promise = axios.get(getmovementsURL, {
       headers: { Authorization: `Bearer ${token}` },
     });
     promise.then((response) => {
       setMovements(response.data);
+      response.data.map((movement) => {
+        if (movement.type === "entry") sum += Number(movement.value);
+        else sum -= Number(movement.value);
+      });
+      setTotal(sum);
     });
     promise.catch((err) => {
       alert(err.response.data.message);
     });
-  }, []);
+  }, [deleteM]);
 
   if (movements === undefined) {
     return <BeatLoader color="#52b6ff" />;
   }
 
-  /*
-  function deleteH(id) {
+  function deleteMovement(id) {
     const promise = axios.delete(
-      `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,
+      `${process.env.REACT_APP_DELETEMOVEMENT_ROUTE}/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -36,12 +42,10 @@ export default function Movement() {
       }
     );
     promise.then(() => {
-      navigate("/habitos");
-      setDeleteH(false);
+      setDeleteM(false);
     });
     promise.catch((err) => console.log(err));
   }
-*/
 
   if (movements.length === 0) {
     return (
@@ -54,14 +58,23 @@ export default function Movement() {
   return (
     <Container>
       {movements.map((movement) => (
-          <Item key={movement._id}>
-            <Date>{movement.date}</Date>
-            <Description>{movement.description}</Description>
-            <Value color={movement.type==="exit" ? "red" : "green"}>{movement.value}</Value>
-            <Delete onClick={() => {if (window.confirm("Deseja realmente apagar este item?")) {}}}>
-              x
-            </Delete>
-          </Item>
+        <Item key={movement._id}>
+          <Date>{movement.date}</Date>
+          <Description>{movement.description}</Description>
+          <Value color={movement.type === "exit" ? "red" : "green"}>
+            {movement.value}
+          </Value>
+          <Delete
+            onClick={() => {
+              if (window.confirm("Deseja realmente apagar este item?")) {
+                deleteMovement(movement._id);
+                setDeleteM(true);
+              }
+            }}
+          >
+            x
+          </Delete>
+        </Item>
       ))}
     </Container>
   );
@@ -69,45 +82,48 @@ export default function Movement() {
 
 const Container = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: start;
   overflow: auto;
+  position: relative;
 `;
 
 const Item = styled.div`
   width: 100%;
-  font-family: 'Raleway';
+  font-family: "Raleway";
   font-style: normal;
   display: flex;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
   margin-top: 4%;
-  color: #C6C6C6;
+  color: #c6c6c6;
 `;
 const Date = styled.div`
-width:15%;
-color: #C6C6C6;
+  width: 15%;
+  color: #c6c6c6;
 `;
 
 const Description = styled.div`
-width: 50%;
-color: black;
+  width: 50%;
+  color: black;
 `;
 
 const Value = styled.div`
-width: 30%;
-color: ${props => props.color};
-text-align:center;
+  width: 30%;
+  color: ${(props) => props.color};
+  text-align: right;
+  box-sizing: border-box;
+  padding-right: 2%;
 `;
 
 const Delete = styled.div`
-width: 5%;
-color: #C6C6C6;
-text-align:center;
+  width: 5%;
+  color: #c6c6c6;
+  text-align: center;
 `;
-
 
 const None = styled.div`
   margin-top: 5%;
