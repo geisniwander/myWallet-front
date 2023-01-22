@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { AuthContext } from "../contexts/Context";
 import { BeatLoader } from "react-spinners";
+import { Link } from "react-router-dom";
 
 export default function Movement() {
   const { token, setTotal } = useContext(AuthContext);
@@ -11,7 +12,7 @@ export default function Movement() {
 
   useEffect(() => {
     let sum = 0;
-    const getmovementsURL = process.env.REACT_APP_GETMOVEMENTS_ROUTE;
+    const getmovementsURL = `${process.env.REACT_APP_API_URL}/movimentacoes`;
     const promise = axios.get(getmovementsURL, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -33,7 +34,7 @@ export default function Movement() {
   }
 
   function deleteMovement(id) {
-    const deleteURL = `${process.env.REACT_APP_DELETEMOVEMENT_ROUTE}/${id}`;
+    const deleteURL = `${process.env.REACT_APP_API_URL}/excluir-entrada/${id}`;
     const promise = axios.delete(deleteURL, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -58,7 +59,17 @@ export default function Movement() {
       {movements.map((movement) => (
         <Item key={movement._id}>
           <Date>{movement.date}</Date>
-          <Description>{movement.description}</Description>
+          <Description>
+            <Link
+              to={
+                movement.type === "entry"
+                  ? `/editar-entrada/${movement._id}`
+                  : `/editar-saida/${movement._id}`
+              }
+            >
+              {movement.description}
+            </Link>
+          </Description>
           <Value color={movement.type === "exit" ? "red" : "green"}>
             {movement.value}
           </Value>
@@ -106,7 +117,10 @@ const Date = styled.div`
 
 const Description = styled.div`
   width: 50%;
-  color: black;
+  a {
+    text-decoration: none;
+    color: black;
+  }
 `;
 
 const Value = styled.div`

@@ -13,7 +13,7 @@ export default function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   function login(e, email, password) {
-    const signinURL = process.env.REACT_APP_SIGNIN_ROUTE;
+    const signinURL = `${process.env.REACT_APP_API_URL}/sign-in`;
     e.preventDefault();
     setLoading(true);
     const promise = axios.post(signinURL, {
@@ -40,8 +40,24 @@ export default function AuthProvider({ children }) {
       },
     };
     const body = { value, description, type };
-    const postURL = process.env.REACT_APP_POSTMOVEMENT_ROUTE;
+    const postURL = `${process.env.REACT_APP_API_URL}/movimentacoes`;
     const promise = axios.post(postURL, body, config);
+    promise.then(() => {
+      navigate("/home");
+    });
+    promise.catch((err) => console.log(err));
+  }
+
+  function editMovement(e, id, value, description, type) {
+    e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const body = { value, description, type };
+    const putURL = `${process.env.REACT_APP_API_URL}/editar-entrada/${id}`;
+    const promise = axios.put(putURL, body, config);
     promise.then(() => {
       navigate("/home");
     });
@@ -59,6 +75,7 @@ export default function AuthProvider({ children }) {
         total,
         setTotal,
         postMovement,
+        editMovement,
       }}
     >
       {children}
