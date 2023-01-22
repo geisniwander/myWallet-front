@@ -19,11 +19,19 @@ export default function EditEntry() {
       },
     });
     promise.then((res) => {
-      setValue(res.data.value);
+      setValue(res.data.value.toString().replace(".", ","));
       setDescription(res.data.description);
     });
     promise.catch((err) => console.log(err));
   }, []);
+
+  function edit(e) {
+    e.preventDefault();
+    const valueNumber = parseFloat(value.replace(",", ".")).toFixed(2);
+    if (isNaN(valueNumber) || valueNumber <= 0)
+      return alert("Informe um valor válido!");
+    editMovement(e, id, valueNumber, description, "entry");
+  }
 
   if (value === undefined) {
     return (
@@ -38,9 +46,9 @@ export default function EditEntry() {
       <Title>
         <p>Editar entrada</p>
       </Title>
-      <Form onSubmit={(e) => editMovement(e, id, value, description, "entry")}>
+      <Form onSubmit={(e) => edit(e)}>
         <Input
-          type="number"
+          type="text"
           placeholder="Valor"
           value={value}
           onChange={(e) => setValue(e.target.value)}

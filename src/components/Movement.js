@@ -22,7 +22,7 @@ export default function Movement() {
         if (movement.type === "entry") sum += Number(movement.value);
         else sum -= Number(movement.value);
       });
-      setTotal(sum);
+      setTotal(sum.toFixed(2));
     });
     promise.catch((err) => {
       alert(err.response.data.message);
@@ -71,7 +71,7 @@ export default function Movement() {
             </Link>
           </Description>
           <Value color={movement.type === "exit" ? "red" : "green"}>
-            {movement.value}
+            {movement.value.toString().replace('.', ',')}
           </Value>
           <Delete
             onClick={() => {

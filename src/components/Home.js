@@ -19,7 +19,7 @@ export default function Home() {
         <Movement />
         <Total>
           <span>SALDO</span>
-          <Balance color={total >= 0 ? "green" : "red"}>{total}</Balance>
+          <Balance color={total >= 0 ? "green" : "red"}>{total.toString().replace('.', ',')}</Balance>
         </Total>
       </ContainerInfos>
       <ContainerButtons>

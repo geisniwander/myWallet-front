@@ -8,14 +8,22 @@ export default function NewExit() {
   const [description, setDescription] = useState("");
   const { loading, postMovement } = useContext(AuthContext);
 
+  function post(e) {
+    e.preventDefault();
+    const valueNumber = parseFloat(value.replace(",", ".")).toFixed(2);
+    if (isNaN(valueNumber) || valueNumber <= 0)
+      return alert("Informe um valor válido!");
+    postMovement(e, valueNumber, description, "exit");
+  }
+
   return (
     <ContainerExit>
       <Title>
-      <p>Nova saída</p>
-      </Title>    
-      <Form onSubmit={(e) => postMovement(e, value, description,  "exit")}>
+        <p>Nova saída</p>
+      </Title>
+      <Form onSubmit={(e) => post(e)}>
         <Input
-          type="number"
+          type="text"
           placeholder="Valor"
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -45,7 +53,7 @@ const ContainerExit = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #8C11BE;
+  background-color: #8c11be;
 `;
 
 const Form = styled.form`
@@ -68,7 +76,7 @@ const Button = styled.button`
   height: 46px;
   margin-top: 2%;
   margin-bottom: 7%;
-  background-color:#A328D6;
+  background-color: #a328d6;
   border-radius: 5px;
   border: none;
   font-style: normal;
@@ -79,9 +87,9 @@ const Button = styled.button`
 `;
 
 const Title = styled.div`
-  width:85%;
-  margin-top:10%;
-  margin-bottom:10%;
+  width: 85%;
+  margin-top: 10%;
+  margin-bottom: 10%;
   font-family: "Raleway";
   font-style: normal;
   font-weight: 700;

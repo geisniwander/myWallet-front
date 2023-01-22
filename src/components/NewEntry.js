@@ -7,17 +7,25 @@ export default function NewEntry() {
   const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
   const { loading, postMovement } = useContext(AuthContext);
+  
+  function post(e){
+    e.preventDefault();
+    const valueNumber = parseFloat(value.replace(',', '.')).toFixed(2);
+    if(isNaN(valueNumber) || valueNumber<=0)
+      return(alert("Informe um valor válido!"))
+    postMovement(e, valueNumber , description,  "entry")
+  }
 
   return (
     <ContainerEntry>
       <Title>
         <p>Nova entrada</p>
       </Title>
-      <Form onSubmit={(e) => postMovement(e, value, description,  "entry")}>
+      <Form onSubmit={(e) => post(e)}>
         <Input
-          type="number"
-          placeholder="Valor"
+          type="text"
           value={value}
+          placeholder="Valor"
           onChange={(e) => setValue(e.target.value)}
           disabled={loading}
           required
