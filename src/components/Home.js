@@ -5,38 +5,47 @@ import { AuthContext } from "../contexts/Context";
 import Movement from "./Movement";
 
 export default function Home() {
-  const { loading, name, total } = useContext(AuthContext);
+  const { loading, name, total, movements } = useContext(AuthContext);
   const navigate = useNavigate();
 
   return (
     <ContainerHome>
       <Title>
         <p>Olá, {name}!</p>
-        <ion-icon name="log-out-outline"></ion-icon>
+        <ion-icon
+          name="log-out-outline"
+          onClick={() => navigate("/")}
+        ></ion-icon>
       </Title>
       <ContainerInfos>
         {" "}
         <Movement />
         <Total>
-          <span>SALDO</span>
-          <Balance color={total >= 0 ? "green" : "red"}>{total.toString().replace('.', ',')}</Balance>
+          {movements.length > 0 ? (
+            <>
+              <span>SALDO</span>
+              <Balance color={total >= 0 ? "green" : "red"}>
+                {total.toString().replace(".", ",")}
+              </Balance>
+            </>
+          ) : (
+            ""
+          )}
         </Total>
       </ContainerInfos>
       <ContainerButtons>
         <Button onClick={() => navigate("/nova-entrada")} disabled={loading}>
           <ion-icon name="add-circle-outline"></ion-icon>
           <span>
-            Nova
-            <br />
-            Entrada
+            <p>Nova</p>
+            <p>Entrada</p>
           </span>
         </Button>
         <Button onClick={() => navigate("/nova-saida")} disabled={loading}>
           <ion-icon name="add-circle-outline"></ion-icon>
           <span>
-            Nova
-            <br />
-            Saída
+            <p>Nova</p>
+            <p>Saída</p>
           </span>
         </Button>
       </ContainerButtons>
@@ -63,7 +72,7 @@ const ContainerInfos = styled.div`
   border-radius: 5px;
   box-sizing: border-box;
   padding: 2%;
-  position:relative;
+  position: relative;
 `;
 
 const Title = styled.div`
@@ -113,22 +122,31 @@ const Button = styled.button`
   ion-icon {
     font-size: 26px;
   }
-  spam {
+  p {
     text-align: left;
   }
 `;
 
 const Total = styled.div`
-width:100%;
-display: flex;
-justify-content: space-between;
-position: absolute;
-box-sizing:border-box;
-padding:3%;
-bottom:0;
-left:0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  box-sizing: border-box;
+  padding: 3%;
+  bottom: 0;
+  left: 0;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 20px;
+  font-weight: 400;
+  span {
+    font-weight: 700;
+  }
 `;
 
 const Balance = styled.div`
-color: ${props => props.color};
+  color: ${(props) => props.color};
 `;

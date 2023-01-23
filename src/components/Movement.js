@@ -6,8 +6,7 @@ import { BeatLoader } from "react-spinners";
 import { Link } from "react-router-dom";
 
 export default function Movement() {
-  const { token, setTotal } = useContext(AuthContext);
-  const [movements, setMovements] = useState([]);
+  const { token, setTotal, movements, setMovements } = useContext(AuthContext);
   const [deleteM, setDeleteM] = useState(true);
 
   useEffect(() => {
@@ -49,8 +48,7 @@ export default function Movement() {
   if (movements.length === 0) {
     return (
       <None>
-        Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
-        começar a trackear!
+        Não há registros de entrada ou saída
       </None>
     );
   }
@@ -71,7 +69,7 @@ export default function Movement() {
             </Link>
           </Description>
           <Value color={movement.type === "exit" ? "red" : "green"}>
-            {movement.value.toString().replace('.', ',')}
+            {parseFloat(movement.value).toFixed(2).replace('.', ',')}
           </Value>
           <Delete
             onClick={() => {
@@ -138,10 +136,15 @@ const Delete = styled.div`
 `;
 
 const None = styled.div`
-  margin-top: 5%;
-  width: 90%;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 17px;
-  line-height: 22px;
+min-height:65vh;
+display: flex;
+justify-content: center;
+align-items: center;
+font-family: 'Raleway';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 23px;
+text-align: center;
+color: #868686;
 `;

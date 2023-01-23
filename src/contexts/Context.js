@@ -10,6 +10,7 @@ export default function AuthProvider({ children }) {
   const [name, setName] = useState("");
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [movements, setMovements] = useState([]);
   const navigate = useNavigate();
 
   function login(e, email, password) {
@@ -76,6 +77,8 @@ export default function AuthProvider({ children }) {
         setTotal,
         postMovement,
         editMovement,
+        movements, 
+        setMovements
       }}
     >
       {children}
