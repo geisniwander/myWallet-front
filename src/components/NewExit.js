@@ -14,7 +14,7 @@ export default function NewExit() {
 
   function post(e) {
     e.preventDefault();
-    const valueNumber = parseFloat(value.replace(",", ".")).toFixed(2);
+    const valueNumber = Number(value.replace(",", ".")).toFixed(2);
     if (isNaN(valueNumber) || valueNumber <= 0)
       return alert("Informe um valor válido!");
     postMovement(e, valueNumber, description, "exit");
@@ -32,6 +32,7 @@ export default function NewExit() {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           disabled={loading}
+          data-test="registry-amount-input"
           required
         />
         <Input
@@ -40,9 +41,10 @@ export default function NewExit() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           disabled={loading}
+          data-test="registry-name-input"
           required
         />
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} data-test="registry-save">
           {" "}
           {loading ? <BeatLoader color="white" /> : "Salvar saída"}{" "}
         </Button>
@@ -59,7 +61,6 @@ const ContainerExit = styled.div`
   align-items: center;
   background-color: #8c11be;
 `;
-
 const Form = styled.form`
   width: 85%;
   height: 20%;
@@ -89,13 +90,10 @@ const Button = styled.button`
   text-align: center;
   color: #ffffff;
 `;
-
 const Title = styled.div`
   width: 85%;
   margin-top: 10%;
   margin-bottom: 10%;
-  font-family: "Raleway";
-  font-style: normal;
   font-weight: 700;
   font-size: 26px;
   line-height: 31px;

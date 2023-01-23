@@ -20,6 +20,8 @@ const GlobalStyle = createGlobalStyle`
      font-size: 100%;
      font: inherit;
      vertical-align: baseline;
+     font-family: "Raleway";
+     font-style: normal;
  }
  
  article, aside, details, figcaption, figure, 
@@ -46,6 +48,9 @@ const GlobalStyle = createGlobalStyle`
  }
  *{
     overflow-x: hidden;
+    font-family: "Raleway";
+    font-style: normal;
+    overflow-y: hidden;
  }
  input{
     font-family: 'Raleway';
@@ -56,11 +61,30 @@ const GlobalStyle = createGlobalStyle`
     color: #000000;
     box-sizing: border-box;
     padding:2%;
+    :disabled{
+        background-color: #f2f2f2;
+      }
+    ::placeholder {
+        font-family: 'Raleway';
+        color: #000000;
+      }
  }
+
+ input:focus, textarea:focus, select:focus {
+    outline-offset: 0px !important;
+    outline: none !important;
+    }
+
  button{
     font-family: 'Raleway';
     font-weight: 700;
+    :disabled{
+        filter: opacity(70%);
+      }
  }
+ ::-webkit-scrollbar {
+    display: none;
+}
 }
 `;
 export default GlobalStyle;

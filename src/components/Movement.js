@@ -74,11 +74,13 @@ export default function Movement() {
                   : `/editar-saida/${movement._id}`
               }
             >
-              {movement.description}
+              <p data-test="registry-name">{movement.description}</p>
             </Link>
           </Description>
           <Value color={movement.type === "exit" ? "red" : "green"}>
-            {parseFloat(movement.value).toFixed(2).replace(".", ",")}
+            <p data-test="registry-amount">
+              {Number(movement.value).toFixed(2).replace(".", ",")}
+            </p>
           </Value>
           <Delete
             onClick={() => {
@@ -88,7 +90,7 @@ export default function Movement() {
               }
             }}
           >
-            x
+            <p data-test="registry-delete">x</p>
           </Delete>
         </Item>
       ))}
@@ -98,30 +100,32 @@ export default function Movement() {
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: 65vh;
   display: flex;
   flex-direction: column;
-  align-items: start;
-  overflow: auto;
+  align-items: center;
+  justify-content: start;
   position: relative;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding-top: 4%;
+  padding-bottom: 4%;
 `;
-
 const Item = styled.div`
   width: 100%;
-  font-family: "Raleway";
-  font-style: normal;
+  min-height: 22px;
   display: flex;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
   margin-top: 4%;
   color: #c6c6c6;
+  overflow-y: hidden;
 `;
 const Date = styled.div`
   width: 15%;
   color: #c6c6c6;
 `;
-
 const Description = styled.div`
   width: 50%;
   a {
@@ -129,7 +133,6 @@ const Description = styled.div`
     color: black;
   }
 `;
-
 const Value = styled.div`
   width: 30%;
   color: ${(props) => props.color};
@@ -137,20 +140,17 @@ const Value = styled.div`
   box-sizing: border-box;
   padding-right: 2%;
 `;
-
 const Delete = styled.div`
   width: 5%;
   color: #c6c6c6;
   text-align: center;
+  font-size: 16px;
 `;
-
 const None = styled.div`
   min-height: 65vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Raleway";
-  font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 23px;

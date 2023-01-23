@@ -24,14 +24,14 @@ export default function AuthProvider({ children }) {
     promise.then((response) => {
       setToken(response.data.token);
       setName(response.data.name);
-      const user = {name: response.data.name, token: response.data.token };
-      const userSerialized = JSON.stringify(user); 
-      localStorage.setItem("myWalletAuthentication", userSerialized )
+      const user = { name: response.data.name, token: response.data.token };
+      const userSerialized = JSON.stringify(user);
+      localStorage.setItem("myWalletAuthentication", userSerialized);
       navigate("/home");
       setLoading(false);
     });
     promise.catch((err) => {
-      alert(err.response.data.message);
+      alert(err.response.data);
       setLoading(false);
     });
   }
@@ -68,15 +68,14 @@ export default function AuthProvider({ children }) {
     promise.catch((err) => console.log(err));
   }
 
-  function verifySession(){
+  function verifySession() {
     const sessionExists = localStorage.getItem("myWalletAuthentication");
-    if(sessionExists){
+    if (sessionExists) {
       const user = JSON.parse(sessionExists);
       setName(user.name);
       setToken(user.token);
     }
   }
-
 
   return (
     <AuthContext.Provider
@@ -90,11 +89,11 @@ export default function AuthProvider({ children }) {
         setTotal,
         postMovement,
         editMovement,
-        movements, 
+        movements,
         setMovements,
         setName,
         setToken,
-        verifySession
+        verifySession,
       }}
     >
       {children}

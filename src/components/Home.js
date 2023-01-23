@@ -26,38 +26,56 @@ export default function Home() {
   return (
     <ContainerHome>
       <Title>
-        <p>Olá, {name}!</p>
-        <ion-icon name="log-out-outline" onClick={logout}></ion-icon>
+        <p data-test="user-name">Olá, {name}!</p>
+        <ion-icon
+          name="log-out-outline"
+          onClick={logout}
+          data-test="logout"
+        ></ion-icon>
       </Title>
       <ContainerInfos>
-        {" "}
-        <Movement />
-        <Total>
-          {movements.length > 0 ? (
-            <>
-              <span>SALDO</span>
-              <Balance color={total >= 0 ? "green" : "red"}>
-                {total.toString().replace(".", ",")}
-              </Balance>
-            </>
-          ) : (
-            ""
-          )}
-        </Total>
+        <ContainerMovement>
+          <Movement />
+        </ContainerMovement>{" "}
+        <ContainerTotal>
+          <Total>
+            {movements.length > 0 ? (
+              <>
+                <span>SALDO</span>
+                <Balance
+                  color={total >= 0 ? "green" : "red"}
+                  data-test="total-amount"
+                >
+                  {total.toString().replace(".", ",")}
+                </Balance>
+              </>
+            ) : (
+              ""
+            )}
+          </Total>
+        </ContainerTotal>
       </ContainerInfos>
       <ContainerButtons>
-        <Button onClick={() => navigate("/nova-entrada")} disabled={loading}>
+        <Button
+          onClick={() => navigate("/nova-entrada")}
+          disabled={loading}
+          data-test="new-income"
+        >
           <ion-icon name="add-circle-outline"></ion-icon>
           <span>
             <p>Nova</p>
-            <p>Entrada</p>
+            <p>entrada</p>
           </span>
         </Button>
-        <Button onClick={() => navigate("/nova-saida")} disabled={loading}>
+        <Button
+          onClick={() => navigate("/nova-saida")}
+          disabled={loading}
+          data-test="new-expense"
+        >
           <ion-icon name="add-circle-outline"></ion-icon>
           <span>
             <p>Nova</p>
-            <p>Saída</p>
+            <p>saída</p>
           </span>
         </Button>
       </ContainerButtons>
@@ -74,10 +92,9 @@ const ContainerHome = styled.div`
   justify-content: center;
   background-color: #8c11be;
 `;
-
 const ContainerInfos = styled.div`
   width: 85%;
-  min-height: 68vh;
+  max-height: 68vh;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -86,11 +103,21 @@ const ContainerInfos = styled.div`
   padding: 2%;
   position: relative;
 `;
-
+const ContainerMovement = styled.div`
+  height: 64vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: space-around;
+  background-color: white;
+`;
+const ContainerTotal = styled.div`
+  height: 4vh;
+  display: flex;
+  background-color: white;
+`;
 const Title = styled.div`
   width: 85%;
-  font-family: "Raleway";
-  font-style: normal;
   font-weight: 700;
   font-size: 32px;
   line-height: 50px;
@@ -102,22 +129,18 @@ const Title = styled.div`
     font-size: 36px;
   }
 `;
-
 const ContainerButtons = styled.div`
   width: 85%;
   display: flex;
   justify-content: space-between;
-  font-family: "Raleway";
-  font-style: normal;
   font-weight: 700;
   font-size: 15px;
   line-height: 18px;
   color: #ffffff;
   margin-top: 4%;
 `;
-
 const Button = styled.button`
-  width: 47%;
+  width: 45%;
   height: 114px;
   background-color: #a328d6;
   border-radius: 5px;
@@ -138,7 +161,6 @@ const Button = styled.button`
     text-align: left;
   }
 `;
-
 const Total = styled.div`
   width: 100%;
   display: flex;
@@ -148,8 +170,6 @@ const Total = styled.div`
   padding: 3%;
   bottom: 0;
   left: 0;
-  font-family: "Raleway";
-  font-style: normal;
   font-weight: 700;
   font-size: 17px;
   line-height: 20px;
@@ -158,7 +178,6 @@ const Total = styled.div`
     font-weight: 700;
   }
 `;
-
 const Balance = styled.div`
   color: ${(props) => props.color};
 `;

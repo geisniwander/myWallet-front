@@ -30,6 +30,7 @@ export default function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={loading}
+          data-test="email"
           required
         />
         <Input
@@ -38,9 +39,10 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           disabled={loading}
+          data-test="password"
           required
         />
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} data-test="sign-in-submit">
           {" "}
           {loading ? <BeatLoader color="white" /> : "Entrar"}{" "}
         </Button>
@@ -61,12 +63,9 @@ const ContainerLogin = styled.div`
   justify-content: center;
   background-color: #8c11be;
   p {
-    font-family: "Raleway";
-    font-style: normal;
     font-weight: 700;
     font-size: 15px;
     line-height: 18px;
-    text-align: center;
     color: #ffffff;
     margin-top: 8%;
   }
@@ -74,7 +73,6 @@ const ContainerLogin = styled.div`
     text-decoration: none;
   }
 `;
-
 const Logo = styled.h1`
   font-family: "Saira Stencil One";
   font-style: normal;
@@ -84,7 +82,6 @@ const Logo = styled.h1`
   color: #ffffff;
   margin-bottom: 7%;
 `;
-
 const Form = styled.form`
   width: 80%;
   height: 20%;
@@ -108,9 +105,7 @@ const Button = styled.button`
   background-color: #a328d6;
   border-radius: 5px;
   border: none;
-  font-style: normal;
   font-size: 20px;
   line-height: 23px;
-  text-align: center;
   color: #ffffff;
 `;

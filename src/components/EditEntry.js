@@ -8,7 +8,8 @@ import axios from "axios";
 export default function EditEntry() {
   const [value, setValue] = useState(undefined);
   const [description, setDescription] = useState("");
-  const { loading, editMovement, token, setName, setToken } = useContext(AuthContext);
+  const { loading, editMovement, token, setName, setToken } =
+    useContext(AuthContext);
   const { id } = useParams();
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function EditEntry() {
 
   function edit(e) {
     e.preventDefault();
-    const valueNumber = parseFloat(value.replace(",", ".")).toFixed(2);
+    const valueNumber = Number(value.replace(",", ".")).toFixed(2);
     if (isNaN(valueNumber) || valueNumber <= 0)
       return alert("Informe um valor válido!");
     editMovement(e, id, valueNumber, description, "entry");
@@ -65,6 +66,7 @@ export default function EditEntry() {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           disabled={loading}
+          data-test="registry-amount-input"
           required
         />
         <Input
@@ -73,9 +75,10 @@ export default function EditEntry() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           disabled={loading}
+          data-test="registry-name-input"
           required
         />
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} data-test="registry-save">
           {" "}
           {loading ? <BeatLoader color="white" /> : "Atualizar entrada"}{" "}
         </Button>
@@ -92,7 +95,6 @@ const ContainerEntry = styled.div`
   align-items: center;
   background-color: #8c11be;
 `;
-
 const ContainerBeat = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -102,7 +104,6 @@ const ContainerBeat = styled.div`
   justify-content: center;
   background-color: #8c11be;
 `;
-
 const Form = styled.form`
   width: 85%;
   height: 20%;
@@ -126,19 +127,14 @@ const Button = styled.button`
   background-color: #a328d6;
   border-radius: 5px;
   border: none;
-  font-style: normal;
   font-size: 20px;
   line-height: 23px;
-  text-align: center;
   color: #ffffff;
 `;
-
 const Title = styled.div`
   width: 85%;
   margin-top: 10%;
   margin-bottom: 10%;
-  font-family: "Raleway";
-  font-style: normal;
   font-weight: 700;
   font-size: 26px;
   line-height: 31px;
