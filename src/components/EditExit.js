@@ -25,7 +25,7 @@ export default function EditExit() {
       tokenSession = token;
     }
 
-    const getURL = `${process.env.REACT_APP_API_URL}/movimentacoes/${id}`;
+    const getURL = `https://mywallet-back-t18p.onrender.com/movimentacoes/${id}`;
     const promise = axios.get(getURL, {
       headers: {
         Authorization: `Bearer ${tokenSession}`,

@@ -20,7 +20,7 @@ export default function SignUp() {
     if (password !== confirmPassword)
       return alert("Os campos Senha e Confirme a senha devem ser iguais!");
 
-    const signupURL = `${process.env.REACT_APP_API_URL}/sign-up`;
+    const signupURL = `https://mywallet-back-t18p.onrender.com/sign-up`;
     setLoading(true);
     const promise = axios.post(signupURL, {
       email: email.toString(),

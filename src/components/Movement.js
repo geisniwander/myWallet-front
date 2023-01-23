@@ -24,7 +24,7 @@ export default function Movement() {
     }
 
     let sum = 0;
-    const getmovementsURL = `${process.env.REACT_APP_API_URL}/movimentacoes`;
+    const getmovementsURL = `https://mywallet-back-t18p.onrender.com/movimentacoes`;
     const promise = axios.get(getmovementsURL, {
       headers: { Authorization: `Bearer ${tokenSession}` },
     });
@@ -46,7 +46,7 @@ export default function Movement() {
   }
 
   function deleteMovement(id) {
-    const deleteURL = `${process.env.REACT_APP_API_URL}/excluir-entrada/${id}`;
+    const deleteURL = `https://mywallet-back-t18p.onrender.com/excluir-entrada/${id}`;
     const promise = axios.delete(deleteURL, {
       headers: {
         Authorization: `Bearer ${token}`,

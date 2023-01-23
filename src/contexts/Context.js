@@ -14,7 +14,7 @@ export default function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   function login(e, email, password) {
-    const signinURL = `${process.env.REACT_APP_API_URL}/sign-in`;
+    const signinURL = `https://mywallet-back-t18p.onrender.com/sign-in`;
     e.preventDefault();
     setLoading(true);
     const promise = axios.post(signinURL, {
@@ -44,7 +44,7 @@ export default function AuthProvider({ children }) {
       },
     };
     const body = { value, description, type };
-    const postURL = `${process.env.REACT_APP_API_URL}/movimentacoes`;
+    const postURL = `https://mywallet-back-t18p.onrender.com/movimentacoes`;
     const promise = axios.post(postURL, body, config);
     promise.then(() => {
       navigate("/home");
@@ -60,7 +60,7 @@ export default function AuthProvider({ children }) {
       },
     };
     const body = { value, description, type };
-    const putURL = `${process.env.REACT_APP_API_URL}/editar-entrada/${id}`;
+    const putURL = `https://mywallet-back-t18p.onrender.com/editar-entrada/${id}`;
     const promise = axios.put(putURL, body, config);
     promise.then(() => {
       navigate("/home");
