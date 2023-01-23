@@ -1,12 +1,16 @@
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../contexts/Context";
 import { BeatLoader } from "react-spinners";
 
 export default function NewExit() {
   const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
-  const { loading, postMovement } = useContext(AuthContext);
+  const { loading, postMovement, verifySession } = useContext(AuthContext);
+
+  useEffect(() => {
+    verifySession();
+  }, []);
 
   function post(e) {
     e.preventDefault();

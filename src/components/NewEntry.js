@@ -1,19 +1,23 @@
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/Context";
 import { BeatLoader } from "react-spinners";
 
 export default function NewEntry() {
   const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
-  const { loading, postMovement } = useContext(AuthContext);
-  
-  function post(e){
+  const { loading, postMovement, verifySession } = useContext(AuthContext);
+
+  useEffect(() => {
+    verifySession();
+  }, []);
+
+  function post(e) {
     e.preventDefault();
-    const valueNumber = parseFloat(value.replace(',', '.')).toFixed(2);
-    if(isNaN(valueNumber) || valueNumber<=0)
-      return(alert("Informe um valor válido!"))
-    postMovement(e, valueNumber , description,  "entry")
+    const valueNumber = parseFloat(value.replace(",", ".")).toFixed(2);
+    if (isNaN(valueNumber) || valueNumber <= 0)
+      return alert("Informe um valor válido!");
+    postMovement(e, valueNumber, description, "entry");
   }
 
   return (

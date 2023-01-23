@@ -6,14 +6,27 @@ import { BeatLoader } from "react-spinners";
 import { Link } from "react-router-dom";
 
 export default function Movement() {
-  const { token, setTotal, movements, setMovements } = useContext(AuthContext);
+  const { token, setTotal, movements, setMovements, setName, setToken } =
+    useContext(AuthContext);
   const [deleteM, setDeleteM] = useState(true);
 
   useEffect(() => {
+    let tokenSession = undefined;
+    const sessionExists = localStorage.getItem("myWalletAuthentication");
+
+    if (sessionExists) {
+      const user = JSON.parse(sessionExists);
+      setName(user.name);
+      setToken(user.token);
+      tokenSession = user.token;
+    } else {
+      tokenSession = token;
+    }
+
     let sum = 0;
     const getmovementsURL = `${process.env.REACT_APP_API_URL}/movimentacoes`;
     const promise = axios.get(getmovementsURL, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${tokenSession}` },
     });
     promise.then((response) => {
       setMovements(response.data);
@@ -46,11 +59,7 @@ export default function Movement() {
   }
 
   if (movements.length === 0) {
-    return (
-      <None>
-        Não há registros de entrada ou saída
-      </None>
-    );
+    return <None>Não há registros de entrada ou saída</None>;
   }
   return (
     <Container>
@@ -69,7 +78,7 @@ export default function Movement() {
             </Link>
           </Description>
           <Value color={movement.type === "exit" ? "red" : "green"}>
-            {parseFloat(movement.value).toFixed(2).replace('.', ',')}
+            {parseFloat(movement.value).toFixed(2).replace(".", ",")}
           </Value>
           <Delete
             onClick={() => {
@@ -136,15 +145,15 @@ const Delete = styled.div`
 `;
 
 const None = styled.div`
-min-height:65vh;
-display: flex;
-justify-content: center;
-align-items: center;
-font-family: 'Raleway';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 23px;
-text-align: center;
-color: #868686;
+  min-height: 65vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  color: #868686;
 `;

@@ -1,21 +1,33 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../contexts/Context";
 import Movement from "./Movement";
 
 export default function Home() {
-  const { loading, name, total, movements } = useContext(AuthContext);
+  const { loading, name, total, movements, setName, setToken } =
+    useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const sessionExists = localStorage.getItem("myWalletAuthentication");
+    if (sessionExists) {
+      const user = JSON.parse(sessionExists);
+      setName(user.name);
+      setToken(user.token);
+    }
+  }, []);
+
+  function logout() {
+    localStorage.removeItem("myWalletAuthentication");
+    navigate("/");
+  }
 
   return (
     <ContainerHome>
       <Title>
         <p>Olá, {name}!</p>
-        <ion-icon
-          name="log-out-outline"
-          onClick={() => navigate("/")}
-        ></ion-icon>
+        <ion-icon name="log-out-outline" onClick={logout}></ion-icon>
       </Title>
       <ContainerInfos>
         {" "}

@@ -15,10 +15,14 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   function register(e) {
-    const signupURL = `${process.env.REACT_APP_API_URL}/sign-up`;
     e.preventDefault();
+
+    if(password !== confirmPassword)
+      return (alert("Os campos Senha e Confirme a senha devem ser iguais!"));
+
+    const signupURL = `${process.env.REACT_APP_API_URL}/sign-up`;
     setLoading(true);
-    const promise = axios.post( signupURL , {
+    const promise = axios.post(signupURL, {
       email: email.toString(),
       name: name.toString(),
       password: password.toString(),

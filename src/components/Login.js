@@ -1,13 +1,24 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../contexts/Context";
 import { BeatLoader } from "react-spinners";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loading } = useContext(AuthContext);
+  const { login, loading, setName, setToken } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const sessionExists = localStorage.getItem("myWalletAuthentication");
+    if (sessionExists) {
+      const user = JSON.parse(sessionExists);
+      setName(user.name);
+      setToken(user.token);
+      navigate("/home");
+    }
+  }, []);
 
   return (
     <ContainerLogin>
@@ -48,15 +59,15 @@ const ContainerLogin = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #8C11BE;
+  background-color: #8c11be;
   p {
-    font-family: 'Raleway';
+    font-family: "Raleway";
     font-style: normal;
     font-weight: 700;
     font-size: 15px;
     line-height: 18px;
     text-align: center;
-    color: #FFFFFF;
+    color: #ffffff;
     margin-top: 8%;
   }
   a {
@@ -94,7 +105,7 @@ const Button = styled.button`
   height: 46px;
   margin-top: 2%;
   margin-bottom: 7%;
-  background-color:#A328D6;
+  background-color: #a328d6;
   border-radius: 5px;
   border: none;
   font-style: normal;

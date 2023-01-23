@@ -8,14 +8,26 @@ import axios from "axios";
 export default function EditExit() {
   const [value, setValue] = useState(undefined);
   const [description, setDescription] = useState("");
-  const { loading, editMovement, token } = useContext(AuthContext);
+  const { loading, editMovement, token, setName, setToken } = useContext(AuthContext);
   const { id } = useParams();
 
   useEffect(() => {
+    let tokenSession = undefined;
+    const sessionExists = localStorage.getItem("myWalletAuthentication");
+
+    if (sessionExists) {
+      const user = JSON.parse(sessionExists);
+      setName(user.name);
+      setToken(user.token);
+      tokenSession = user.token;
+    } else {
+      tokenSession = token;
+    }
+
     const getURL = `${process.env.REACT_APP_API_URL}/movimentacoes/${id}`;
     const promise = axios.get(getURL, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${tokenSession}`,
       },
     });
     promise.then((res) => {
